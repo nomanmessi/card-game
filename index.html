@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Card Game</title>
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+        <style>
+            body {
+                font-family: 'Nunito', sans-serif;
+                margin-left: 4%;
+            }
+            .container {
+                position: relative;
+                height: 700px;
+                margin: 0;
+                /* display: flex;
+                flex-wrap: wrap; */
+            }
+            /* background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHrOQI-bYEnn6h-Ra7Npda6RpnWNp7QdaLgQ&usqp=CAU"); */
+            .card {
+                border-radius: 5px;
+                border: 2px solid black;
+                /* background-color: white; */
+                
+                /* background-image: "{{ asset('images/card-back.jpg') }}"; */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                height: 100px;
+                width: 55px;
+                /* float: left; */
+                margin: 5px;
+                cursor: context-menu;
+                transition: top 300ms linear, left 300ms linear;
+            }
+            .card .number {
+                position: absolute;
+                font-size: 1rem;
+            }
+            .card .number.top {
+                top: 10px;
+                left: 10px;
+            }
+            .card .number.bottom {
+                bottom: 10px;
+                right: 10px;
+            }
+            .card .suit {
+                font-size: 3.5rem;
+            }
+            .card.red {
+                color: red;
+            }
+            .card_front {
+                display: none;
+            }
+            
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="container" id="container">
+
+        </div>
+
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h1 id="prompt">Congradulations! you've won </h1>
+                        <div class="text-center" id="won_item_div">
+                            <img src="..." class="rounded" alt="...">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.reload();">Restart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="startupModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h1>These are the things you can win, press start and enjoy!</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="shuffleCards();">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        var card_mapping = new Array();
+        var card_count = 0;
+
+        numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
+        const suits = [
+            {
+                icon: '😎',
+                color: 'red'
+            },
+            {
+                icon: '😎',
+                color: 'black'
+            },
+            {
+                icon: '😎',
+                color: 'red'
+            },
+            {
+                icon: '😎',
+                color: 'black'
+            }
+        ];
+
+        var card_mapping = new Array();
+
+        card_mapping['black_1'] = 'Wine Opener';
+        card_mapping['black_2'] = 'Ziploc Seal Bags';
+        card_mapping['black_3'] = 'Chopping Board';
+        card_mapping['black_4'] = 'Kitchen Knife';
+        card_mapping['black_5'] = 'Chopsticks Set';
+        card_mapping['black_6'] = 'Fruits Cutter Set';
+        card_mapping['black_7'] = 'Stainless Steel Peeler';
+        card_mapping['black_8'] = 'Dried Kelp Shreds';
+        card_mapping['black_9'] = 'Dried Kelp Slices';
+        card_mapping['black_10'] = 'WangZhiHe Pure Sesame Sauce';
+        card_mapping['black_11'] = 'HiTian Chu Hou Paste';
+        card_mapping['black_12'] = 'LaoGanMa Chili Sauce';
+        card_mapping['black_13'] = 'ChuBang Soy Sauce';
+        card_mapping['red_1'] = 'ChinaRed Hot Pot Base';
+        card_mapping['red_2'] = 'KuaiShouXiaoChu Spicy Sour Mustard Fish Sauce';
+        card_mapping['red_3'] = 'Mala Fish';
+        card_mapping['red_4'] = 'ChunJian';
+        card_mapping['red_5'] = '52 Hot Pot Basee';
+        card_mapping['red_6'] = 'KunTaiZhanShui Cili Paste';
+        card_mapping['red_7'] = 'SanWu Hot Pot Base';
+        card_mapping['red_8'] = 'WangShouYi Mala Paste';
+        card_mapping['red_9'] = 'Scratching Rake Wood';
+        card_mapping['red_10'] = 'Rolling Pin';
+        card_mapping['red_11'] = 'Spatula';
+        card_mapping['red_12'] = 'Plastic Basket';
+        card_mapping['red_13'] = 'Plastic Basin';
+
+        var quantity_mapping = new Array();
+
+        quantity_mapping['quantity_black_1'] = 30;
+        quantity_mapping['quantity_black_2'] = 8;
+        quantity_mapping['quantity_black_3'] = 5;
+        quantity_mapping['quantity_black_4'] = 8;
+        quantity_mapping['quantity_black_5'] = 47;
+        quantity_mapping['quantity_black_6'] = 10;
+        quantity_mapping['quantity_black_7'] = 4;
+        quantity_mapping['quantity_black_8'] = 25;
+        quantity_mapping['quantity_black_9'] = 30;
+        quantity_mapping['quantity_black_10'] = 140;
+        quantity_mapping['quantity_black_11'] = 15;
+        quantity_mapping['quantity_black_12'] = 60;
+        quantity_mapping['quantity_black_13'] = 12;
+        quantity_mapping['quantity_red_1'] = 30;
+        quantity_mapping['quantity_red_2'] = 25;
+        quantity_mapping['quantity_red_3'] = 65;
+        quantity_mapping['quantity_red_4'] = 55;
+        quantity_mapping['quantity_red_5'] = 80;
+        quantity_mapping['quantity_red_6'] = 39;
+        quantity_mapping['quantity_red_7'] = 29;
+        quantity_mapping['quantity_red_8'] = 35;
+        quantity_mapping['quantity_red_9'] = 15;
+        quantity_mapping['quantity_red_10'] = 13;
+        quantity_mapping['quantity_red_11'] = 22;
+        quantity_mapping['quantity_red_12'] = 35;
+        quantity_mapping['quantity_red_13'] = 88;
+
+        $(document).ready(function() {
+            $("#startupModal").modal('show');
+
+            for(let i=1; i<=13; i++) {
+                var quantity = localStorage.getItem(`quantity_black_${i}`);
+                if (quantity === null) {
+                    localStorage.setItem(`quantity_black_${i}`, quantity_mapping[`quantity_black_${i}`]);
+                }
+
+                var quantity = localStorage.getItem(`quantity_red_${i}`);
+                if (quantity === null) {
+                    localStorage.setItem(`quantity_red_${i}`, quantity_mapping[`quantity_black_${i}`]);
+                }
+            }
+        });
+
+        const spacing = 5;
+        let positions = [];
+        var card_id = 1;
+        picked_cards = [];
+
+        const container = document.getElementById('container');
+        const shuffleBtn = document.getElementById('shuffle');
+
+        function createCard({suit, suit_idx, number, number_idx}) {
+            const cardEl = document.createElement('div');
+
+            cardEl.classList.add('card');
+            
+            cardEl.setAttribute('id', `card_${card_id}`);
+
+            const TOP = suit_idx * 100 + spacing * suit_idx + 'px';
+            const LEFT = number_idx * 55 + spacing * number_idx + 'px';
+
+            positions.push([TOP, LEFT]);
+
+            product_img_width = 50;
+
+            if(`${suit.color+'_'+number}` == 'black_13') {
+                product_img_width = 35;
+            }
+            
+            cardEl.style.top = TOP;
+            cardEl.style.left = LEFT;
+            cardEl.innerHTML = `
+                <img src="images/card-back.jpg" width="51" height="100" class="card_back" id="back_card_${card_id}">
+                <img src="images/${suit.color}_${number}.jpg" width="${product_img_width}" class="card_front" id="front_card_${card_id}">
+                <input type="hidden" value="${suit.color+'_'+number}" id="val_card_${card_id}">
+                <input type="hidden" value="${card_mapping[suit.color+'_'+number]}" id="product_card_${card_id}">
+            `;
+
+            container.appendChild(cardEl);
+            card_id++;
+        }
+
+        suits.forEach((suit, suit_idx) => {
+            numbers.forEach((number, number_idx) => {
+                const cardDetails = {
+                    number,
+                    suit,
+                    suit_idx,
+                    number_idx
+                }
+                quantity = localStorage.getItem(`quantity_${suit.color}_${number}`);
+                if(quantity > 0) {
+                    card_count++;
+                    createCard(cardDetails);
+                }
+            })
+        });
+
+        const cards = document.querySelectorAll('.card');
+
+        $(".card").click(function() {
+            var card_id = $(this).attr('id');
+            $(`#${card_id}`).unbind("click");
+            $(`#back_${card_id}`).css('display', 'none');
+            $(`#front_${card_id}`).css('display', 'block');
+            picked_card = $(`#val_${card_id}`).val();
+            product = $(`#product_${card_id}`).val();
+            document.getElementById('prompt').innerHTML = "Congradulations! you've won item "+product;
+
+            document.getElementById('won_item_div').innerHTML = `<img src="images/${picked_card}.jpg" height="170" class="rounded" alt="...">`;
+
+            result = picked_cards.indexOf(picked_card);
+
+            if(result > -1) {
+                quantity = localStorage.getItem(`quantity_${picked_card}`);
+                quantity--;
+                localStorage.setItem(`quantity_${picked_card}`, quantity);
+
+                var delayInMilliseconds = 100;
+
+                setTimeout(function() {
+                    $("#myModal").modal('show');
+                }, delayInMilliseconds);
+            }
+
+            picked_cards.push(picked_card);
+        });
+
+        function shuffleCards() {
+            $('#startupModal').modal('toggle');
+            cards.forEach((card, idx) => {
+                setTimeout(() => {
+                    card.style.zIndex = card_count - idx;
+                    card.style.top = '25%';
+                    card.style.left = '50%';
+                }, idx * 20);
+            });
+
+            setTimeout(shuffleBack, card_count * 20 + 500);
+        }
+
+        function shuffleBack() {
+
+            shufflePositions();
+
+            cards.forEach((card, idx) => {
+                setTimeout(() => {
+                    card.style.top = positions[idx][0];
+                    card.style.left = positions[idx][1];
+                }, idx * 20);
+            });
+        }
+
+        function shufflePositions() {
+            for(let i=0; i<200; i++) {
+                const rand1 = Math.floor(Math.random() * card_count);
+                const rand2 = Math.floor(Math.random() * card_count);
+
+                const temp = positions[rand1];
+                positions[rand1] = positions[rand2];
+                positions[rand2] = temp;
+            }
+        }
+    </script>
+    
+</html>

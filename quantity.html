@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>Card Game</title>
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+        <style>
+            body {
+                font-family: 'Nunito', sans-serif;
+                margin-left: 4%;
+            }
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="container" id="container">
+            <div class="form-group">
+                <div class="row" id="row">
+                    <div class="col-md-6">
+                        <label>Wine Opener</label>
+                        <input type="number" class="form-control quantity" id="black_1">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Ziploc Seal Bags</label>
+                        <input type="number" class="form-control quantity" id="black_2">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Chopping Board</label>
+                        <input type="number" class="form-control quantity" id="black_3">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Kitchen Knife</label>
+                        <input type="number" class="form-control quantity" id="black_4">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Chopsticks Set</label>
+                        <input type="number" class="form-control quantity" id="black_5">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Fruits Cutter Set'</label>
+                        <input type="number" class="form-control quantity" id="black_6">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Stainless Steel Peeler</label>
+                        <input type="number" class="form-control quantity" id="black_7">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Dried Kelp Shreds</label>
+                        <input type="number" class="form-control quantity" id="black_8">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Dried Kelp Slices</label>
+                        <input type="number" class="form-control quantity" id="black_9">
+                    </div>
+                    <div class="col-md-6">
+                        <label>WangZhiHe Pure Sesame Sauce</label>
+                        <input type="number" class="form-control quantity" id="black_10">
+                    </div>
+                    <div class="col-md-6">
+                        <label>HiTian Chu Hou Paste</label>
+                        <input type="number" class="form-control quantity" id="black_11">
+                    </div>
+                    <div class="col-md-6">
+                        <label>LaoGanMa Chili Sauce</label>
+                        <input type="number" class="form-control quantity" id="black_12">
+                    </div>
+                    <div class="col-md-6">
+                        <label>ChuBang Soy Sauce</label>
+                        <input type="number" class="form-control quantity" id="black_13">
+                    </div>
+                    <div class="col-md-6">
+                        <label>ChinaRed Hot Pot Base</label>
+                        <input type="number" class="form-control quantity" id="red_1">
+                    </div>
+                    <div class="col-md-6">
+                        <label>KuaiShouXiaoChu Spicy Sour Mustard Fish Sauce</label>
+                        <input type="number" class="form-control quantity" id="red_2">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Mala Fish</label>
+                        <input type="number" class="form-control quantity" id="red_3">
+                    </div>
+                    <div class="col-md-6">
+                        <label>ChunJian</label>
+                        <input type="number" class="form-control quantity" id="red_4">
+                    </div>
+                    <div class="col-md-6">
+                        <label>52 Hot Pot Basee</label>
+                        <input type="number" class="form-control quantity" id="red_5">
+                    </div>
+                    <div class="col-md-6">
+                        <label>KunTaiZhanShui Cili Paste</label>
+                        <input type="number" class="form-control quantity" id="red_6">
+                    </div>
+                    <div class="col-md-6">
+                        <label>SanWu Hot Pot Base</label>
+                        <input type="number" class="form-control quantity" id="red_7">
+                    </div>
+                    <div class="col-md-6">
+                        <label>WangShouYi Mala Paste</label>
+                        <input type="number" class="form-control quantity" id="red_8">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Scratching Rake Wood</label>
+                        <input type="number" class="form-control quantity" id="red_9">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Rolling Pin</label>
+                        <input type="number" class="form-control quantity" id="red_10">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Spatula</label>
+                        <input type="number" class="form-control quantity" id="red_11">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Plastic Basket</label>
+                        <input type="number" class="form-control quantity" id="red_12">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Plastic Basin</label>
+                        <input type="number" class="form-control quantity" id="red_13">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        var card_mapping = new Array();
+
+        card_mapping = [
+            'black_1',
+            'black_2',
+            'black_3',
+            'black_4',
+            'black_5',
+            'black_6',
+            'black_7',
+            'black_8',
+            'black_9',
+            'black_10',
+            'black_11',
+            'black_12',
+            'black_13',
+            'red_1',
+            'red_2',
+            'red_3',
+            'red_4',
+            'red_5',
+            'red_6',
+            'red_7',
+            'red_8',
+            'red_9',
+            'red_10',
+            'red_11',
+            'red_12',
+            'red_13'
+        ];
+
+        $(document).ready(function() {
+            card_mapping.forEach(card_id => {
+                var quantity = localStorage.getItem(`quantity_${card_id}`);
+                $(`#${card_id}`).val(quantity);
+            });
+        });
+
+        $(".quantity").keyup(function() {
+            var card_id = $(this).attr('id');
+            quantity = $(`#${card_id}`).val();
+            localStorage.setItem(`quantity_${card_id}`, quantity);
+        });
+    </script>
+</html>
